@@ -16,3 +16,12 @@ router.get("/komik/:id", komikController.getKomikById);
 router.post("/komik", authMiddleware, komikController.createKomik);
 router.put("/komik/:id", authMiddleware, komikController.updateKomik);
 router.delete("/komik/:id", authMiddleware, komikController.deleteKomik);
+
+
+// Genre Routes
+router.get("/genre", genreController.getAllGenre);
+router.post("/genre", authMiddleware, genreController.createGenre);
+router.put("/genre/:id", authMiddleware, genreController.updateGenre);
+router.delete("/genre/:id", authMiddleware, genreController.deleteGenre);
+
+module.exports = router;
