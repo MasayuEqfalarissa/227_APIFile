@@ -27,3 +27,28 @@ async function getKomikById(req, res) {
         res.status(500).json({ error: "failed to fetch komik" });
     }
 }
+
+async function createKomik(req, res) {
+    const { judul, title, sinopsis, description, tahun_terbit, penulis_id, genre_id } = req.body;
+    try {
+        const newKomik = await KomikModel.create({
+            judul: judul || title,
+            title: title || judul,
+            sinopsis: sinopsis || description,
+            description: description || sinopsis,
+            tahun_terbit,
+            penulis_id,
+            penulis_Id: penulis_id
+        });
+
+        if (genre_id && Array.isArray(genre_id) && GenreModel && newKomik.setGenres) {
+            const genres = await GenreModel.findAll({ where: { id: genre_id } });
+            await newKomik.setGenres(genres);
+        }
+
+        res.status(201).json(newKomik);
+    } catch (err) {
+        console.error("Error creating komik:", err.message);
+        res.status(500).json({ error: "failed to create komik" });
+    }
+}
